@@ -51,11 +51,12 @@ async function main() {
                 }
             }
         }
-
+    
+    console.log("Actualizado a las " + new Date().toISOString())
     } catch (err) {
         console.error('Error:', err);
     }
 }
 
 main();
-// setInterval(main, 3600000);
+setInterval(main, 3600000);
