@@ -59,4 +59,4 @@ async function main() {
 }
 
 main();
-// setInterval(main, 3600000);
+setInterval(main, 3600000);
