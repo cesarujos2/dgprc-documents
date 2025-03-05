@@ -66,7 +66,7 @@ export class TefiService {
             if (formattedList !== '') formattedList = `document_name NOT IN (${formattedList})`
 
             const selectedFields = ["id", "document_name", "nro_oficio_rep_c", "fecha_oficio_c", "link_oficio_c",
-                "nro_informe_rep_c", "fecha_informe_rep_c", "link_informe_rep_c"]
+                "nro_informe_rep_c", "fecha_informe_rep_c", "link_informe_rep_c", "created_by_name"]
 
             const notFilteredFields = ["id", "document_name", "fecha_oficio_c", "fecha_informe_rep_c",
                 "nro_informe_rep_c", "link_informe_rep_c"]
@@ -93,7 +93,6 @@ export class TefiService {
             const result = await this.Request('get_entry_list', postData)
             let data = result as ITefi<IFtaTefi>
             if (data.result_count == 0) return []
-
             const tefiData = TefiAdapter(data)
             return FtaAdapter(tefiData)
         } catch (error: any) {

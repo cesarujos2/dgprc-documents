@@ -58,5 +58,14 @@ async function main() {
     }
 }
 
-main();
-setInterval(main, 3600000);
+async function startLoop() {
+    while (true) {
+      await main();
+      const minutos = Math.floor(Math.random() * 120) + 1; // Número entre 1 y 120
+      const intervaloMs = minutos * 60000;
+      console.log(`Esperando ${(minutos).toFixed(2)} minutos para la siguiente ejecución...`);
+      await new Promise(resolve => setTimeout(resolve, intervaloMs));
+    }
+  }
+
+  startLoop()

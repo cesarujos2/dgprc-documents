@@ -31,13 +31,15 @@ export function FtaAdapter(data: TefiData<IFtaTefi>[]): Document[] {
         return {
             tefiId: item.id,
             roadmap: item.document_name,
-            officeName: item.nro_oficio_rep_c,
-            officeDate: item.fecha_oficio_c,
+            officeName: item.nro_oficio_rep_c == '' ? null : item.nro_oficio_rep_c,
+            officeDate: item.fecha_oficio_c == '' ? null : item.fecha_oficio_c,
             officeUrl: item.link_oficio_c == 'http://' ? null : item.link_oficio_c,
 
-            reportName: item.nro_informe_rep_c,
-            reportDate: item.fecha_informe_rep_c,
+            reportName: item.nro_informe_rep_c == '' ? null : item.nro_informe_rep_c,
+            reportDate: item.fecha_informe_rep_c == '' ? null : item.fecha_informe_rep_c,
             reportUrl: item.link_informe_rep_c == 'http://' ? null : item.link_informe_rep_c,
+
+            assignedUser: item.created_by_name
 
         } as Document
     });

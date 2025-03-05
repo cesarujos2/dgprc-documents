@@ -26,6 +26,8 @@ class DatabaseService {
         reportUrl TEXT,
         reportDate TEXT,
 
+        assignedUser TEXT,
+
         deleted INTEGER DEFAULT 0,
         creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
@@ -42,11 +44,11 @@ class DatabaseService {
   public saveDocument(doc: Document): void {
     const stmt = this.db.prepare(`
       INSERT INTO documentos (roadmap, tefiId, officeId, officeName, officeFileName, officeUrl, officeDate, reportId, 
-      reportName, reportFileName, reportUrl, reportDate)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      reportName, reportFileName, reportUrl, reportDate, assignedUser)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     stmt.run(doc.roadmap, doc.tefiId, doc.officeId, doc.officeName, doc.officeFileName, doc.officeUrl, doc.officeDate,
-      doc.reportId, doc.reportName, doc.reportFileName, doc.reportUrl, doc.reportDate);
+      doc.reportId, doc.reportName, doc.reportFileName, doc.reportUrl, doc.reportDate, doc.assignedUser);
   }
   // Método para actualizar un documento
   public updateDocument(doc: Document): void {

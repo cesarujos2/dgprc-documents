@@ -15,6 +15,8 @@ export interface Document {
     reportUrl: string | null;
     reportDate: string | null;
 
+    assignedUser: string | null;
+
     deleted: number;
     creationDate: Date;
 }
