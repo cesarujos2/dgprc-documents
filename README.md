@@ -20,7 +20,7 @@ Para ejecutar un script de Node.js en segundo plano sin que se detenga.
    ```
 1. Ejecuta tu script con `pm2`:
    ```bash
-   pm2 start dist/index.js --name "dgprc-documents"
+   pm2 start dist/index.js --name "docs"
    ```
 1. Para asegurarte de que se inicie al reiniciar el servidor:
    ```bash
@@ -36,25 +36,25 @@ Para ejecutar un script de Node.js en segundo plano sin que se detenga.
    ```
 1. Para detenerlo:
    ```bash
-   pm2 stop dgprc-documents
+   pm2 stop docs
    ```
    ```bash
    pm2 stop all
    ```
 1. Para eliminarlo:
    ```bash
-   pm2 delete dgprc-documents
+   pm2 delete docs
    ```
    ```bash
    pm2 delete all
    ```
 1. Ver los logs:
    ```bash
-   pm2 logs dgprc-documents
+   pm2 logs docs
    ```
 1. Ver los errores:
    ```bash
-   pm2 logs dgprc-documents --err
+   pm2 logs docs --err
    ```
 1. Limpiar los logs:
    ```bash
