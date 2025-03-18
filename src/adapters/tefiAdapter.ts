@@ -39,7 +39,7 @@ export function FtaAdapter(data: TefiData<IFtaTefi>[]): Document[] {
             reportDate: item.fecha_informe_rep_c == '' ? null : item.fecha_informe_rep_c,
             reportUrl: item.link_informe_rep_c == 'http://' ? null : item.link_informe_rep_c,
 
-            assignedUser: item.created_by_name
+            assignedUser: item.assigned_user_name
 
         } as Document
     });

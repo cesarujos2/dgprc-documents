@@ -66,7 +66,7 @@ export class TefiService {
             if (formattedList !== '') formattedList = `document_name NOT IN (${formattedList})`
 
             const selectedFields = ["id", "document_name", "nro_oficio_rep_c", "fecha_oficio_c", "link_oficio_c",
-                "nro_informe_rep_c", "fecha_informe_rep_c", "link_informe_rep_c", "created_by_name"]
+                "nro_informe_rep_c", "fecha_informe_rep_c", "link_informe_rep_c", "assigned_user_name"]
 
             const notFilteredFields = ["id", "document_name", "fecha_oficio_c", "fecha_informe_rep_c",
                 "nro_informe_rep_c", "link_informe_rep_c"]
@@ -76,7 +76,9 @@ export class TefiService {
                 module_name: "Fitac_fitac",
                 query: `${[
                     formattedList,
-                    "active_date > '2025-01-01'",
+                    "status_id <> ''", 
+                    "status_id <> 'por_evaluar'",
+                    "fecha_ingreso_c > '2025-01-01'",
                     "(" + selectedFields
                         .filter(a => (a && a != "" && !notFilteredFields.includes(a)))
                         .map(a => `${a} = '' OR ${a} = 'http://'`)
