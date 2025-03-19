@@ -7,6 +7,7 @@ const tefiService = TefiService.getInstance();
 const databaseService = DatabaseService.getInstance();
 const alfrescoService = AlfrescoService.getInstance();
 
+console.log(`\nIniciando proceso de sincronización de documentos de Tefi ${new Date().toLocaleTimeString()}\n`);
 
 async function main() {
     try {
@@ -51,21 +52,57 @@ async function main() {
                 }
             }
         }
-    
-    console.log("Actualizado a las " + new Date().toISOString())
+
+        console.log("Actualizado a las " + new Date().toLocaleTimeString())
     } catch (err) {
         console.error('Error:', err);
     }
 }
 
-async function startLoop() {
-    while (true) {
-      await main();
-      const minutos = Math.floor(Math.random() * 120) + 1; // Número entre 1 y 120
-      const intervaloMs = minutos * 60000;
-      console.log(`Esperando ${(minutos).toFixed(2)} minutos para la siguiente ejecución...`);
-      await new Promise(resolve => setTimeout(resolve, intervaloMs));
-    }
-  }
+const schedule = ["08:30", "12:00", "18:00", "20:00"];
 
-  startLoop()
+function getCurrentTimeInMinutesUTC5(): number {
+    const now = new Date();
+    const utcMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+    const localMinutes = utcMinutes - 5 * 60;
+    return (localMinutes + 24 * 60) % (24 * 60);
+}
+
+async function startLoop() {
+    await main();
+    while (true) {
+        const currentTime = getCurrentTimeInMinutesUTC5();
+
+        let nextExecution = schedule
+            .map(time => {
+                const [hours, minutes] = time.split(":").map(Number);
+                return hours * 60 + minutes;
+            })
+            .find(time => time > currentTime);
+
+        if (nextExecution === undefined) {
+            nextExecution = schedule
+                .map(time => {
+                    const [hours, minutes] = time.split(":").map(Number);
+                    return hours * 60 + minutes;
+                })[0];
+            nextExecution += 24 * 60;
+        }
+
+        const waitTimeMs = (nextExecution - currentTime) * 60000;
+        const nextExecutionFormatted = schedule.find(time => {
+            const [hours, minutes] = time.split(":").map(Number);
+            return hours * 60 + minutes === (nextExecution % (24 * 60));
+        });
+
+        console.log(
+            `Siguiente ejecución a las ${nextExecutionFormatted} (UTC-5). Esperando ${Math.round(waitTimeMs / 60000)} minutos...`
+        );
+
+        await new Promise(resolve => setTimeout(resolve, waitTimeMs));
+
+        await main();
+    }
+}
+
+startLoop();
