@@ -23,6 +23,7 @@ async function main() {
         }
 
         const dbDocs = databaseService.getDocuments();
+        let contador = 0;
         if (dbDocs.length > 0) {
             for (const item of dbDocs) {
                 if (item.officeId) continue;
@@ -47,13 +48,14 @@ async function main() {
 
                     await tefiService.SetDocumentFitac(item);
                     databaseService.updateDocument(item);
+                    contador++
                 } catch (err: any) {
                     console.error('Error al obtener documentos del STD:' + item.roadmap + ' ' + err.message);
                 }
             }
         }
 
-        console.log("Actualizado a las " + new Date().toLocaleTimeString())
+        console.log("Actualizado a las " + new Date().toLocaleTimeString() + " | " + contador + " fichas")
     } catch (err) {
         console.error('Error:', err);
     }

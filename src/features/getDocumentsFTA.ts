@@ -22,8 +22,8 @@ export const getDocumentsFTA = async (roadmap: string) => {
             .map(doc => mapDocument(doc));
     };
 
-    const officeDocs = filterDocsByType('OFICIO');
     const reportDocs = filterDocsByType('INFORME');
+    const officeDocs = reportDocs.length === 0 ? [] : filterDocsByType('OFICIO').filter(doc => new Date(doc.date) >= new Date(reportDocs[0].date));
 
     return { office: officeDocs[0] ?? null, report: reportDocs[0] ?? null };
 };
