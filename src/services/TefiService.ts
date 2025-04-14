@@ -76,7 +76,7 @@ export class TefiService {
                 module_name: "Fitac_fitac",
                 query: `${[
                     formattedList,
-                    "status_id <> ''", 
+                    "status_id <> ''",
                     "status_id <> 'por_evaluar'",
                     "fecha_ingreso_c > '2025-01-01'",
                     "(" + selectedFields
@@ -115,7 +115,9 @@ export class TefiService {
                     link_oficio_c: { name: "link_oficio_c", value: doc.officeUrl },
                     nro_informe_rep_c: { name: "nro_informe_rep_c", value: doc.reportName },
                     fecha_informe_rep_c: { name: "fecha_informe_rep_c", value: doc.reportDate },
-                    link_informe_rep_c: { name: "link_informe_rep_c", value: doc.reportUrl }
+                    link_informe_rep_c: { name: "link_informe_rep_c", value: doc.reportUrl },
+                    oficio_resol_doc_id_c: { name: "oficio_resol_doc_id_c", value: doc.officeUrl?.match(/\/([^\/]+)$/)?.[1] },
+                    informe_resol_doc_id_c: { name: "informe_resol_doc_id_c", value: doc.reportUrl?.match(/\/([^\/]+)$/)?.[1] },
                 }
             }
             const result = await this.Request('set_entry', postData)
