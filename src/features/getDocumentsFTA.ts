@@ -19,7 +19,8 @@ export const getDocumentsFTA = async (roadmap: string) => {
     const filterDocsByType = (type: 'OFICIO' | 'INFORME') => {
         return response
             .filter(doc => regex.test(doc.filenameoriginal) && doc.filenameoriginal.includes(type))
-            .map(doc => mapDocument(doc));
+            .map(doc => mapDocument(doc))
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     };
 
     const reportDocs = filterDocsByType('INFORME');

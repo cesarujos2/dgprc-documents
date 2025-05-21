@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, isAxiosError } from "axios";
 import { appsettings } from "../config/appsetting";
 
 export class AlfrescoService {
@@ -50,12 +50,14 @@ export class AlfrescoService {
             });
 
             const entries = result.data.list.entries;
-            if (!entries || entries.length === 0) return null;
+            if (!entries || entries.length === 0) throw new Error("ERROR: No se encontró documento en Alfresco");
             return appsettings.alfresco.visorSTD + entries[0].entry.id;
         } catch (error: any) {
-            if (error.response.status === 401) {
-                this.token = undefined;
-                return await this.GetDocumentUrl(nameFile);
+            if (isAxiosError(error)) {
+                if (error.status === 401) {
+                    this.token = undefined;
+                    return await this.GetDocumentUrl(nameFile);
+                }
             }
             throw new Error("Error obteniendo el documento de Alfresco" + error.message);
         }

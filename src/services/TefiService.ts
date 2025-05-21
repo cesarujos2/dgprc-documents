@@ -77,11 +77,12 @@ export class TefiService {
                 query: `${[
                     formattedList,
                     "status_id <> ''",
+                    "status_id IS NOT NULL",
                     "status_id <> 'por_evaluar'",
                     "fecha_ingreso_c > '2025-01-01'",
                     "(" + selectedFields
                         .filter(a => (a && a != "" && !notFilteredFields.includes(a)))
-                        .map(a => `${a} = '' OR ${a} = 'http://'`)
+                        .map(a => `${a} = '' OR ${a} = 'http://' OR ${a} IS NULL`)
                         .join(' OR ') + ")",
                 ].filter(x => x && x != '').join(' AND ')}`,
                 order_by: "date_entered DESC",
